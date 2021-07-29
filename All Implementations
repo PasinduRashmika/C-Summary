@@ -1,0 +1,601 @@
+
+
+This text file have been included only all the implementations of set of data structures and algorithems which are in BCS first year second semester.Further, there may be some errors because this code segment that copied and paste from my assignment source files.
+
+
+========================================================================================================================
+												 Stack Implimentation
+
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef struct stack{
+    int data[20];
+    int top;
+};
+void initiation(struct stack *s);
+int isEmpty(struct stack *s);
+int isFull(struct stack *s);
+void push(struct stack *s,int d);
+int pop(struct stack *s);
+
+void initiation(struct stack *s){
+    s->top=-1;
+}
+int isEmpty(struct stack *s){
+    if(s->top==-1){
+        return 1;
+    }else{
+        return 0;
+    }
+}
+int isFull(struct stack *s){
+    if(s->top==19)
+        return 1;
+    else
+        return 0;
+}
+void push(struct stack *s,int d){
+    if(isFull(s)){
+        printf("Stack is full...");
+    }else{
+        s->top++;
+        s->data[s->top]=d;
+    }
+}
+int pop(struct stack *s){
+    if(isEmpty(s)){
+        printf("Stack is empty...");
+    }else{
+        int x=s->data[s->top];
+        s->top--;
+        return x;
+    }
+}
+
+int main(){
+
+    struct stack st,*p;
+    p=&st;
+    
+    
+}
+
+========================================================================================================================
+
+
+											    	Queue Implimentation
+
+
+#include <stdio.h>
+#include <stdlib.h>
+#define SIZE 10
+
+typedef enum{True=1,False=0}boolean;
+
+typedef struct queue{
+    int data[10];
+    int size,front,rear;
+};
+void initializer(struct queue *s);
+int isFull(struct queue *s);
+int isEmpty(struct queue *s);
+void enqueue(struct queue *s,int d);
+int dequeue(struct queue *s);
+void displsy(struct queue *s );
+int getFront(struct queue *s);
+
+
+void initializer(struct queue *s){
+    s->rear=-1;
+    s->front=0;
+    s->size=0;
+}
+int isFull(struct queue *s){
+    if(s->rear==(SIZE-1))
+        return true;
+    else
+        return false;
+}
+int isEmpty(struct queue *s){
+    if(s->size==0)
+        return true;
+    else
+        return false;
+}
+void enqueue(struct queue *s,int d){
+    if(isFull(s)){
+        printf("\n\tQueue id full...");
+    }else{
+        s->rear++;
+        s->data[s->rear]=d;
+        s->size++;
+        printf("\n\t%d inserted!",d);
+    }
+}
+int dequeue(struct queue *s){
+    int x;
+    if(isEmpty(s)){
+        printf("\n\tQueue id empty...");
+    }else{
+        x=s->data[s->front];
+        s->front++;
+        s->size--;
+        return x;
+    }
+}
+void displsy(struct queue *s ){
+    for(int y=s->front;y<=s->rear;y++){
+        printf("\n\t%d element is %d",y+1,s->data[y]);
+    }
+}
+int getFront(struct queue *s){
+    int y;
+    if(isEmpty(s)){
+        printf("Queue is empty...");
+    }else{
+        y=s->data[s->rear];
+        return y;
+    }
+}
+
+
+
+int main()
+{
+
+  struct  queue st1,*p;
+   p=&st1;
+   initializer(p);
+
+   
+
+}
+
+
+========================================================================================================================
+
+											Linked List implementaion(As list)
+
+#include <stdio.h>
+#include <stdlib.h>
+typedef enum{
+    True=1,False=0
+}boolean;
+typedef struct node{
+    int data;
+    struct node *next;
+};
+typedef struct list{
+    struct node *head;
+};
+void initialize(struct list *l);
+int isEmpty(struct list *l);
+void addFirst(struct list *l,int x);
+void dispaly(struct list *l);
+void addEnd(struct list *l,int d);
+int length(struct list *l);
+void search(struct list *l,int x);
+void addAt(struct list *l,int x,int loc);
+void del(struct list *l,int loc);
+
+
+void initialize(struct list *l){
+    l->head=NULL;
+}
+int isEmpty(struct list *l){
+    if(l->head==NULL)
+        return 1;
+    else
+        return 0;
+}
+void addFirst(struct list *l,int x){
+    struct node *temp=(struct node*)malloc(sizeof(struct node));
+    temp->data=x;
+    temp->next=NULL;
+    if(isEmpty(l)){
+        l->head=temp;
+        l->head->next=NULL;
+    }else{
+        temp->next=l->head;
+        l->head=temp;
+    }
+}
+void dispaly(struct list *l){
+    struct node *temp;
+    temp=l->head;
+    while(temp!=NULL){
+        printf("\t%d",temp->data);
+        temp=temp->next;
+    }
+}
+void addEnd(struct list *l,int d){
+    struct node *nw=(struct node*)malloc(sizeof(struct node));
+    struct node *temp;
+    nw->data=d;
+    nw->next=NULL;
+    temp=l->head;
+    if(isEmpty(l)){
+        l->head=nw;
+    }else{
+        while(temp->next!=NULL){
+            temp=temp->next;
+        }
+        temp->next=nw;
+    }
+
+
+}
+int length(struct list *l){
+    struct node *temp;
+    int count=0;
+    temp=l->head;
+    while(temp!=NULL){
+        count++;
+        temp=temp->next;
+    }
+    return count;
+}
+void search(struct list *l,int x){
+    struct node *temp;
+    int i=0;
+    temp=l->head;
+    while(temp!=NULL){
+       if(temp->data==x){
+            printf("%d is in list",x);
+            i=1;
+            break;
+       }
+       temp=temp->next;
+    }
+    if(i==0)
+            printf("%d is not in list",x);
+}
+void addAt(struct list *l,int x,int loc){
+    struct node *nw=(struct node*)malloc(sizeof(struct node));
+    struct node *temp;
+    int i=length(l);
+    int j=1;
+    if(loc>i+1){
+        printf("\nInvalid list location");
+    }else if(loc==1){
+        addFirst(l,x);
+    }else if(loc==i+1){
+        addEnd(l,x);
+    }else{
+        temp=l->head;
+        nw->data=x;
+        nw->next=NULL;
+        if(isEmpty(l)){
+            l->head=nw;
+        }
+        else{
+            while(j<loc-1){
+                temp=temp->next;
+                j++;
+            }
+            nw->next=temp->next;
+            temp->next=nw;
+        }
+    }
+}
+void del(struct list *l,int loc){
+    struct node *temp1,*temp2,*temp3;
+    temp1=temp3=l->head;
+    int i=1;
+    while(i<loc){
+        temp1=temp1->next;
+        i++;
+    }
+    temp2=temp1->next;
+    i=1;
+    while(i<loc-1){
+        temp3=temp3->next;
+        i++;
+    }
+    temp3->next=temp2;
+    free(temp1);
+
+
+}
+
+
+
+int main()
+{
+    struct list ls,*p;
+    p=&ls;
+    
+}
+
+
+
+
+========================================================================================================================
+
+
+										Stack based Linked List implementation
+
+#include <stdio.h>
+#include <stdlib.h>
+
+int isEmpty(struct stack *s);
+void push(struct stack *s,int d);
+int pop(struct stack *s);
+
+
+typedef struct node{
+    int data;
+    struct node *next;
+};
+typedef struct stack{
+    struct node* top;
+};
+void init(struct stack *s){
+    s->top=NULL;
+}
+int isEmpty(struct stack *s){
+    if(s->top==NULL){
+        return 1;
+    }else{
+        return 0;
+    }
+}
+void push(struct stack *s,int d){
+    struct node *temp;
+    temp=(struct node*)malloc(sizeof(struct node));
+    temp->data=d;
+    temp->next=s->top;
+    s->top=temp;
+
+}
+int pop(struct stack *s){
+    if(isEmpty(s)){
+        printf("There is no elements to pop");
+    }else{
+        struct node *temp;
+        temp=(struct node*)malloc(sizeof(struct node));
+        temp=s->top;
+        int x=temp->data;
+        s->top=temp->next;
+        free(temp);
+        return x;
+    }
+}
+
+int main()
+{
+    struct stack st,*p;
+    p=&st;
+    init(p);
+
+
+    int i,j;
+
+    for(i=0;i<4;i++){
+        printf("Enter your number :");
+        scanf("%d",&j);
+        push(p,j);
+    }
+    for(i=0;i<4;i++){
+        int x=pop(p);
+        printf("%d",x);
+    }
+}
+
+
+
+
+========================================================================================================================
+
+											Queue based Linked List Implementation
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+typedef struct node{
+    int data;
+    struct node *next;
+};
+typedef struct queue{
+    struct node *rear;
+    struct node *front;
+    int size;
+};
+
+void iniQueue(struct queue *s){
+    s->rear=NULL;
+    s->front=NULL;
+    s->size=0;
+}
+int isEmpty(struct queue *s){
+    int x;
+     if(s->front==NULL){
+           x=1;
+     }else{
+            x=0;
+     }
+     return x;
+}
+void enqueue(struct queue *s,int d){
+    struct node *temp;
+    temp=(struct node*)malloc(sizeof(struct node));
+    temp->data=d;
+    temp->next=NULL;
+    if(isEmpty(s)){
+        s->rear=s->front=temp;
+    }else{
+        s->rear->next=temp;
+        s->rear=temp;
+    }
+    s->size++;
+}
+int dequeue(struct queue *s){
+    if(isEmpty(s)){
+        printf("\nQueue is empty");
+    }else{
+        int x;
+        struct node *temp;
+        temp=s->front;
+        x=temp->data;
+        s->front=s->front->next;
+        s->size--;
+        free(temp);
+        return x;
+    }
+}
+void dispaly(struct queue *s){
+    struct node *temp=s->front;
+    printf("\n\n\t====Dispaly elements====\n");
+    while(temp!=NULL){
+        printf("\t%d",temp->data);
+        printf("\t|");
+        temp=temp->next;
+    }
+
+}
+
+int main()
+{
+    struct queue st,*p;
+    p=&st;
+    iniQueue(p);
+   
+}											
+
+
+
+========================================================================================================================
+												Bubble Sort Algorithem
+
+
+#include <stdio.h>
+#include <stdlib.h>
+#define SIZE 10
+
+void bubbleSort(int x[]);
+
+void bubbleSort(int x[]){
+    int i,j,temp;
+    for(i=SIZE-1;i>=0;i--){
+
+        for(j=0;j<i;j++){
+            if(x[j]>x[j+1]){
+                temp=x[j];
+                x[j]=x[j+1];
+                x[j+1]=temp;
+            }
+        }
+    }
+    for(i=0;i<SIZE;i++){
+        printf("%d\t",x[i]);
+    }
+}
+
+
+int main()
+{
+    int i;
+    int x[SIZE]={120,33,59,10,75,85,165,8,90,44};
+
+    
+}	
+
+
+========================================================================================================================
+						
+													Insertion Sort Algorithem
+
+													
+#include <stdio.h>
+#include <stdlib.h>
+#define MAX 10
+
+void insertsort(int x[],int N);
+
+void insertsort(int x[],int N){
+   int i=1,j,temp;
+   for(i=1;i<N;i++){
+        temp=x[i];
+        j=i-1;
+        while(j>=0 && x[j]>temp){
+            x[j+1]=x[j];
+            j--;
+        }
+        x[j+1]=temp;
+
+   }
+   for(i=0;i<N;i++){
+    printf("%d\t",x[i]);
+   }
+}
+
+int main()
+{
+   int N,i;
+   printf("\nHow many numbers you want to insert :");
+   scanf("%d",&N);
+   int x[N];
+   for(i=0;i<=N-1;i++){
+    printf("\nEnter value :",i);
+    scanf("%d",&x[i]);
+   }
+
+    printf("\n\n\t---------Before sorting-------\n");
+   for(i=0;i<=N-1;i++){
+    printf("%d\t",x[i]);
+
+   }
+   printf("\n\n\t---------After sorting-------\n");
+   insertsort(x,N);
+   printf("\n");
+
+}
+
+
+
+========================================================================================================================
+						
+													Selection Sort Algorithem	
+
+
+#include <stdio.h>
+#include <stdlib.h>
+#define MAX 10
+
+void selectionsort(int list[],int N);
+
+void selectionsort(int list[],int N){
+    int c,d,min,temp;
+    for(c=0;c<N-1;c++){
+        min=c;
+        for(d=c+1;d<N;d++){
+            if(list[min]>list[d])
+                min=d;
+        }
+        temp=list[c];
+        list[c]=list[min];
+        list[min]=temp;
+    }
+    for(int i=0;i<N;i++){
+        printf("%d\t",list[i]);
+    }
+
+}
+
+
+int main()
+{
+    int i,j;
+   int x[11]={120,33,59,10,75,85,165,8,90,44};
+
+  printf("\n\n\t-----Before sorting------\n");
+   for(i=0;i<=MAX-1;i++){
+    printf("%d\t",x[i]);
+
+   }
+   printf("\n\n\t-----After sorting------\n");
+
+   selectionsort(x,MAX);
+
+}																				
